@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Diagnóstico de Ansiedad - Adiós Síntomas</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f5f7fa;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+
+    header {
+      background: linear-gradient(to right, #4CAF50, #81C784);
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      margin: 0;
+    }
+
+    .step-container {
+      max-width: 600px;
+      margin: 20px auto;
+      position: relative;
+    }
+
+    .step {
+      display: none;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      padding: 20px;
+      margin-bottom: 30px;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    .step.active {
+      display: block;
+    }
+
+    .step h2 {
+      margin-top: 0;
+    }
+
+    .step p {
+      margin-bottom: 20px;
+    }
+
+    .arrow {
+      width: 100%;
+      height: 20px;
+      position: relative;
+      margin: 0 auto;
+    }
+
+    .arrow::before {
+      content: '';
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-top: 2px solid #4CAF50;
+      width: 100%;
+    }
+
+    .arrow::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 10px 0 10px 20px;
+      border-color: transparent transparent transparent #4CAF50;
+      animation: arrowMove 1s infinite alternate;
+    }
+
+    @keyframes arrowMove {
+      from { right: 0; }
+      to { right: 20px; }
+    }
+
+    button.start-btn {
+      display: block;
+      margin: 40px auto;
+      padding: 15px 30px;
+      font-size: 18px;
+      background: #FF9800;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button.start-btn:hover {
+      background: #FB8C00;
+    }
+
+    .result {
+      background: #e8f5e9;
+      border: 2px solid #a5d6a7;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .result h2 {
+      color: #2E7D32;
+    }
+
+    .hotmart__button-checkout {
+      display: inline-block;
+      margin-top: 20px;
+      background-color: #e53935;
+      color: white !important;
+      padding: 15px 30px;
+      font-size: 18px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    .hotmart__button-checkout:hover {
+      background-color: #c62828;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    ul {
+      text-align: left;
+      padding-left: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1><ion-icon name="book-outline"></ion-icon> Adiós Síntomas: Técnicas Milenarias para Eliminar Síntomas de la Ansiedad</h1>
+  <p>Descubre cómo puedes aliviar tu ansiedad en solo 7 días.</p>
+</header>
+
+<div class="step-container">
+  <button class="start-btn" onclick="startSteps()">Iniciar Diagnóstico de Ansiedad</button>
+
+  <div class="step" id="step1">
+    <h2>¿Sientes nerviosismo frecuente?</h2>
+    <p>Esto puede incluir aceleración del corazón, sudoración o inquietud constante.</p>
+    <button onclick="nextStep('step1', 'step2', 'nerviosismo')">Sí</button>
+    <button onclick="nextStep('step1', 'step2')">No</button>
+    <div class="arrow"></div>
+  </div>
+
+  <div class="step" id="step2">
+    <h2>¿Tienes problemas para dormir por la noche?</h2>
+    <p>El insomnio es un síntoma común relacionado con la ansiedad y el estrés.</p>
+    <button onclick="nextStep('step2', 'step3', 'insomnio')">Sí</button>
+    <button onclick="nextStep('step2', 'step3')">No</button>
+    <div class="arrow"></div>
+  </div>
+
+  <div class="step" id="step3">
+    <h2>¿Te cuesta concentrarte durante el día?</h2>
+    <p>La falta de claridad mental y la fatiga emocional son señales a considerar.</p>
+    <button onclick="nextStep('step3', 'step4', 'falta_concentracion')">Sí</button>
+    <button onclick="nextStep('step3', 'step4')">No</button>
+    <div class="arrow"></div>
+  </div>
+
+  <div class="step" id="step4">
+    <h2>¿Presentas dolores musculares o tensiones sin causa física aparente?</h2>
+    <p>Estos pueden ser efectos físicos de una mente ansiosa.</p>
+    <button onclick="nextStep('step4', 'step5', 'tension_muscular')">Sí</button>
+    <button onclick="nextStep('step4', 'step5')">No</button>
+    <div class="arrow"></div>
+  </div>
+
+  <div class="step" id="step5">
+    <h2>¿Has sentido que tu mente se queda en blanco repentinamente?</h2>
+    <p>Este es un mecanismo de defensa ante situaciones estresantes.</p>
+    <button onclick="nextStep('step5', 'step6', 'mente_en_blanco')">Sí</button>
+    <button onclick="nextStep('step5', 'step6')">No</button>
+    <div class="arrow"></div>
+  </div>
+
+  <div class="step" id="step6">
+    <h2>¿Evitas situaciones sociales por temor a sentirte incómodo?</h2>
+    <p>Si esto sucede, podría estar afectando tu calidad de vida.</p>
+    <button onclick="nextStep('step6', 'step7', 'evita_social')">Sí</button>
+    <button onclick="nextStep('step6', 'step7')">No</button>
+    <div class="arrow"></div>
+  </div>
+
+  <div class="step" id="step7">
+    <h2>¿Sientes que necesitas ayuda profesional pero no sabes por dónde empezar?</h2>
+    <p>Nuestra guía te brinda técnicas accesibles y sencillas para empezar hoy mismo.</p>
+    <button onclick="showResult()">Finalizar</button>
+  </div>
+
+  <div class="step result" id="result">
+    <h2>¡Felicidades! Has completado el diagnóstico.</h2>
+    <p>Los siguientes síntomas que mencionaste pueden mejorar con nuestra guía digital "<strong>Adiós Síntomas</strong>", diseñada para eliminar los síntomas de la ansiedad en 7 días con técnicas milenarias:</p>
+    <ul id="symptomsList"></ul>
+    <p>Puedes adquirirla ahora por tan solo <strong>$5 USD</strong>.</p>
+
+    <!-- Botón de Compra -->
+    <a onclick="return false;" href="https://pay.hotmart.com/W99622832H?checkoutMode=2&off=ocl87h2q " class="hotmart__button-checkout">Comprar Ahora por $5 USD</a>
+  </div>
+</div>
+
+<!-- Cargar Hotmart -->
+<script type="text/javascript">
+  function importHotmart() {
+    var imported = document.createElement('script');
+    imported.src = 'https://static.hotmart.com/checkout/widget.min.js ';
+    document.head.appendChild(imported);
+    var link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = 'https://static.hotmart.com/css/hotmart-fb.min.css ';
+    document.head.appendChild(link);
+  }
+  importHotmart();
+</script>
+
+<script type="module" src="https://unpkg.com/ionicons @7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons @7.1.0/dist/ionicons/ionicons.js"></script>
+<script>
+  let currentStep = 0;
+  const steps = ['step1', 'step2', 'step3', 'step4', 'step5', 'step6', 'step7'];
+  const symptoms = [];
+
+  const symptomLabels = {
+    nerviosismo: "Nerviosismo frecuente",
+    insomnio: "Problemas para dormir",
+    falta_concentracion: "Falta de concentración",
+    tension_muscular: "Tensión muscular inexplicable",
+    mente_en_blanco: "Mente en blanco repentino",
+    evita_social: "Evitar situaciones sociales"
+  };
+
+  function startSteps() {
+    document.querySelector('.start-btn').style.display = 'none';
+    nextStep(null, 'step1');
+  }
+
+  function nextStep(prevId, nextId, symptom = null) {
+    if (prevId) {
+      document.getElementById(prevId).classList.remove('active');
+    }
+    if (symptom) {
+      symptoms.push(symptom);
+    }
+    document.getElementById(nextId).classList.add('active');
+  }
+
+  function showResult() {
+    document.getElementById('step7').classList.remove('active');
+    const list = document.getElementById('symptomsList');
+    list.innerHTML = '';
+    if (symptoms.length === 0) {
+      list.innerHTML = '<li>No has reportado síntomas significativos de ansiedad.</li>';
+    } else {
+      symptoms.forEach(symptom => {
+        list.innerHTML += `<li>${symptomLabels[symptom]}</li>`;
+      });
+    }
+    document.getElementById('result').classList.add('active');
+  }
+</script>
+</body>
+</html>
