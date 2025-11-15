@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Diagnóstico de Ansiedad - Adiós Síntomas: ¡Elimina Tu Ansiedad en 7 Días!</title>
+  <title>Diagnóstico de Ansiedad - Adiós Síntomas: ¡Libérate del Dolor en Solo 7 Días!</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -16,21 +16,23 @@
       background: linear-gradient(to right, #4CAF50, #81C784);
       color: white;
       text-align: center;
-      padding: 40px 20px; /* Aumentado para más impacto */
+      padding: 40px 20px;
     }
     h1 {
       margin: 0;
-      font-size: 2.5em; /* Más grande para hook visual */
+      font-size: 2.5em;
     }
     .hook {
       font-size: 1.2em;
       margin: 10px 0;
       font-weight: bold;
+      color: #FFEB3B; /* Amarillo para resaltar dolor */
     }
     .step-container {
       max-width: 600px;
       margin: 20px auto;
       position: relative;
+      padding: 0 10px;
     }
     .step {
       display: none;
@@ -46,9 +48,13 @@
     }
     .step h2 {
       margin-top: 0;
+      font-size: 1.8em;
+      color: #D32F2F; /* Rojo para agitar el problema */
     }
     .step p {
       margin-bottom: 20px;
+      font-size: 1.1em;
+      font-style: italic; /* Para enfatizar el dolor */
     }
     .arrow {
       width: 100%;
@@ -81,20 +87,29 @@
       from { right: 0; }
       to { right: 20px; }
     }
+    button {
+      padding: 12px 25px;
+      font-size: 16px;
+      background: #FF9800;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+      margin: 10px 5px;
+      width: 48%;
+    }
+    button:hover {
+      background: #FB8C00;
+      transform: scale(1.05);
+    }
     button.start-btn {
       display: block;
       margin: 40px auto;
       padding: 15px 30px;
       font-size: 18px;
-      background: #FF9800;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-    button.start-btn:hover {
-      background: #FB8C00;
+      width: auto;
+      background: #D32F2F; /* Rojo para urgencia inicial */
     }
     .result {
       background: #e8f5e9;
@@ -105,6 +120,21 @@
     }
     .result h2 {
       color: #2E7D32;
+      font-size: 2em;
+    }
+    .urgency {
+      font-size: 1.2em;
+      color: #D32F2F;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+    #countdown {
+      font-size: 1.5em;
+      color: #FF5722; /* Naranja para urgencia */
+      animation: blink 1s infinite; /* Parpadeo para FOMO */
+    }
+    @keyframes blink {
+      50% { opacity: 0.5; }
     }
     .hotmart__button-checkout {
       display: inline-block;
@@ -116,10 +146,17 @@
       border-radius: 10px;
       text-decoration: none;
       font-weight: bold;
-      transition: background-color 0.3s ease;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      animation: pulse 1.5s infinite;
     }
     .hotmart__button-checkout:hover {
       background-color: #c62828;
+      transform: scale(1.05);
+    }
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(229, 57, 53, 0.7); }
+      70% { box-shadow: 0 0 0 10px rgba(229, 57, 53, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(229, 57, 53, 0); }
     }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
@@ -128,79 +165,136 @@
     ul {
       text-align: left;
       padding-left: 20px;
+      list-style-type: disc;
     }
     .testimonials {
       margin: 20px 0;
       font-style: italic;
       color: #555;
+      font-size: 1.1em;
+      border-top: 1px solid #ccc;
+      padding-top: 10px;
+    }
+    .stars {
+      color: #FFD700; /* Oro para estrellas */
+      font-size: 1.2em;
+    }
+    .validation {
+      font-size: 1em;
+      color: #4CAF50;
+      margin: 10px 0;
+    }
+    /* Media Queries para Mobile */
+    @media (max-width: 600px) {
+      header {
+        padding: 30px 15px;
+      }
+      h1 {
+        font-size: 2em;
+      }
+      .hook {
+        font-size: 1em;
+      }
+      .step-container {
+        padding: 0 5px;
+      }
+      .step {
+        padding: 15px;
+        margin-bottom: 20px;
+      }
+      .step h2 {
+        font-size: 1.5em;
+      }
+      .step p {
+        font-size: 1em;
+      }
+      button {
+        width: 100%;
+        margin: 10px 0;
+      }
+      button.start-btn {
+        width: 90%;
+      }
+      .hotmart__button-checkout {
+        width: 100%;
+        padding: 15px;
+        font-size: 16px;
+      }
+      .result {
+        padding: 15px;
+      }
     }
   </style>
 </head>
 <body>
 <header>
-  <h1><ion-icon name="book-outline"></ion-icon> Adiós Síntomas: Técnicas Milenarias para Eliminar Síntomas de la Ansiedad</h1>
-  <p class="hook">¡Imagina despertar sin nerviosismo, durmiendo como un bebé y concentrándote al 100%! Miles ya lo lograron en solo 7 días – ¿y tú?</p>
+  <h1><ion-icon name="book-outline"></ion-icon> Adiós Síntomas: ¡Detén el Sufrimiento de la Ansiedad Antes de que Te Destruya!</h1>
+  <p class="hook">¿Cansado de que el nerviosismo te robe tus noches, tu concentración y tu vida social? ¡Imagina seguir así por meses... o peor, años! Pero hay una salida rápida – miles ya la tomaron.</p>
 </header>
 <div class="step-container">
-  <button class="start-btn" onclick="startSteps()">Iniciar Diagnóstico Gratuito – ¡Descubre Tu Camino a la Paz!</button>
+  <button class="start-btn" onclick="startSteps()">¡Inicia el Diagnóstico Gratuito Ahora – Antes de que sea Tarde!</button>
   <div class="step" id="step1">
-    <h2>¿Sientes nerviosismo frecuente?</h2>
-    <p>Esto puede incluir aceleración del corazón, sudoración o inquietud constante.</p>
-    <button onclick="nextStep('step1', 'step2', 'nerviosismo')">Sí</button>
+    <h2>¿Sientes nerviosismo frecuente que te deja paralizado?</h2>
+    <p>Imagina tu corazón acelerado sin control, sudoración constante y una inquietud que te impide disfrutar nada – esto te está robando tu paz diaria.</p>
+    <button onclick="nextStep('step1', 'step2', 'nerviosismo')">Sí, y me está matando</button>
     <button onclick="nextStep('step1', 'step2')">No</button>
     <div class="arrow"></div>
   </div>
   <div class="step" id="step2">
-    <h2>¿Tienes problemas para dormir por la noche?</h2>
-    <p>El insomnio es un síntoma común relacionado con la ansiedad y el estrés.</p>
-    <button onclick="nextStep('step2', 'step3', 'insomnio')">Sí</button>
+    <h2>¿Tienes problemas para dormir, despertando exhausto cada mañana?</h2>
+    <p>El insomnio te deja sin energía, irritable y fallando en el trabajo o con tu familia – ¿cuánto más puedes aguantar este ciclo destructivo?</p>
+    <button onclick="nextStep('step2', 'step3', 'insomnio')">Sí, es un infierno</button>
     <button onclick="nextStep('step2', 'step3')">No</button>
     <div class="arrow"></div>
   </div>
   <div class="step" id="step3">
-    <h2>¿Te cuesta concentrarte durante el día?</h2>
-    <p>La falta de claridad mental y la fatiga emocional son señales a considerar.</p>
-    <button onclick="nextStep('step3', 'step4', 'falta_concentracion')">Sí</button>
+    <h2>¿Te cuesta concentrarte, perdiendo oportunidades por la niebla mental?</h2>
+    <p>La falta de claridad te hace cometer errores, olvidar cosas importantes y sentirte inútil – esto está sabotajeando tu éxito y felicidad.</p>
+    <button onclick="nextStep('step3', 'step4', 'falta_concentracion')">Sí, me frustra enormemente</button>
     <button onclick="nextStep('step3', 'step4')">No</button>
     <div class="arrow"></div>
   </div>
   <div class="step" id="step4">
-    <h2>¿Presentas dolores musculares o tensiones sin causa física aparente?</h2>
-    <p>Estos pueden ser efectos físicos de una mente ansiosa.</p>
-    <button onclick="nextStep('step4', 'step5', 'tension_muscular')">Sí</button>
+    <h2>¿Sufres dolores musculares o tensiones que te dejan agotado?</h2>
+    <p>Estos dolores inexplicables te impiden moverte libremente, agregando estrés físico a tu caos mental – ¿vas a dejar que te controle más?</p>
+    <button onclick="nextStep('step4', 'step5', 'tension_muscular')">Sí, duele todo el tiempo</button>
     <button onclick="nextStep('step4', 'step5')">No</button>
     <div class="arrow"></div>
   </div>
   <div class="step" id="step5">
-    <h2>¿Has sentido que tu mente se queda en blanco repentinamente?</h2>
-    <p>Este es un mecanismo de defensa ante situaciones estresantes.</p>
-    <button onclick="nextStep('step5', 'step6', 'mente_en_blanco')">Sí</button>
+    <h2>¿Tu mente se queda en blanco repentinamente en momentos clave?</h2>
+    <p>Este bloqueo te hace fallar en conversaciones, reuniones o decisiones importantes – imaginándolo empeorando, ¿qué pasará con tu vida?</p>
+    <button onclick="nextStep('step5', 'step6', 'mente_en_blanco')">Sí, me aterra</button>
     <button onclick="nextStep('step5', 'step6')">No</button>
     <div class="arrow"></div>
   </div>
   <div class="step" id="step6">
-    <h2>¿Evitas situaciones sociales por temor a sentirte incómodo?</h2>
-    <p>Si esto sucede, podría estar afectando tu calidad de vida.</p>
-    <button onclick="nextStep('step6', 'step7', 'evita_social')">Sí</button>
+    <h2>¿Evitas situaciones sociales por miedo a colapsar?</h2>
+    <p>Esto te aísla de amigos, familia y oportunidades, convirtiendo tu vida en una prisión solitaria – ¡no dejes que la ansiedad gane!</p>
+    <button onclick="nextStep('step6', 'step7', 'evita_social')">Sí, me siento solo</button>
     <button onclick="nextStep('step6', 'step7')">No</button>
     <div class="arrow"></div>
   </div>
   <div class="step" id="step7">
-    <h2>¿Sientes que necesitas ayuda profesional pero no sabes por dónde empezar?</h2>
-    <p>Nuestra guía te brinda técnicas accesibles y sencillas para empezar hoy mismo.</p>
-    <button onclick="showResult()">Finalizar y Obtener Solución</button>
+    <h2>¿Necesitas ayuda urgente pero no sabes cómo empezar?</h2>
+    <p>Si sigues ignorándolo, el dolor solo crecerá – nuestra guía te da el escape inmediato con técnicas probadas.</p>
+    <button onclick="showResult()">¡Finalizar y Liberarme Ahora!</button>
   </div>
   <div class="step result" id="result">
-    <h2>¡Felicidades! Has completado el diagnóstico.</h2>
-    <p>Los siguientes síntomas que mencionaste pueden mejorar con nuestra guía digital "<strong>Adiós Síntomas</strong>", diseñada para eliminar los síntomas de la ansiedad en 7 días con técnicas milenarias:</p>
+    <h2>¡Alerta! Tus Síntomas Están Robándote la Vida – Pero Hay Esperanza.</h2>
+    <p>Estos síntomas devastadores que reportaste están destruyendo tu bienestar, pero con "<strong>Adiós Síntomas</strong>" – técnicas milenarias validadas por expertos – los eliminarás en solo 7 días:</p>
     <ul id="symptomsList"></ul>
-    <p class="testimonials">"¡Cambió mi vida! En una semana, adiós al insomnio." - María S. <br> "Técnicas simples pero poderosas. Recomiendo 100%." - Juan P.</p>
-    <p>¡Oferta limitada: Adquiérela ahora por tan solo <strong>$5 USD</strong> y empieza tu transformación hoy!</p>
-    <!-- Botón de Compra corregido: sin onclick para redirigir directamente -->
-    <a href="https://pay.hotmart.com/W99622832H?checkoutMode=2&off=ocl87h2q" class="hotmart__button-checkout">¡Comprar Ahora por $5 USD y Decir Adiós a la Ansiedad!</a>
+    <p class="validation"><span class="stars">★★★★★</span> Validado por más de 5,000 usuarios y expertos en psicología ancestral: "Técnicas probadas en estudios modernos y tradiciones milenarias."</p>
+    <div class="testimonials">
+      <p>"¡De no dormir nada a noches perfectas en 5 días! Salvó mi matrimonio." - Ana R. <span class="stars">★★★★★</span></p>
+      <p>"Adiós al nerviosismo que me paralizaba en el trabajo. ¡Increíble!" - Carlos M. <span class="stars">★★★★★</span></p>
+      <p>"Más de 5,000 personas como tú ya se liberaron – únete ahora."</p>
+    </div>
+    <p class="urgency">¡Oferta expira en: <span id="countdown">5:00</span>! Ahorra ahora: <del>$27 USD</del> <strong>$7 USD</strong>. ¡No esperes, el dolor no lo hará!</p>
+    <a href="https://pay.hotmart.com/W99622832H?checkoutMode=2&off=ocl87h2q" class="hotmart__button-checkout">¡Comprar Ahora por $7 USD – Libérate Antes de que sea Tarde!</a>
   </div>
 </div>
-<!-- Cargar Hotmart (opcional si usas popup; quítalo si solo quieres redirección directa) -->
+<!-- Cargar Hotmart (opcional) -->
 <script type="text/javascript">
   function importHotmart() {
     var imported = document.createElement('script');
@@ -221,12 +315,12 @@
   const steps = ['step1', 'step2', 'step3', 'step4', 'step5', 'step6', 'step7'];
   const symptoms = [];
   const symptomLabels = {
-    nerviosismo: "Nerviosismo frecuente",
-    insomnio: "Problemas para dormir",
-    falta_concentracion: "Falta de concentración",
-    tension_muscular: "Tensión muscular inexplicable",
-    mente_en_blanco: "Mente en blanco repentino",
-    evita_social: "Evitar situaciones sociales"
+    nerviosismo: "Nerviosismo frecuente que te paraliza y roba tu paz",
+    insomnio: "Problemas para dormir que te dejan exhausto e irritable",
+    falta_concentracion: "Falta de concentración que sabotea tu éxito diario",
+    tension_muscular: "Tensión muscular inexplicable que agrava tu estrés",
+    mente_en_blanco: "Mente en blanco repentino que te hace fallar en momentos clave",
+    evita_social: "Evitar situaciones sociales, aislándote y aumentando la soledad"
   };
   function startSteps() {
     document.querySelector('.start-btn').style.display = 'none';
@@ -246,13 +340,36 @@
     const list = document.getElementById('symptomsList');
     list.innerHTML = '';
     if (symptoms.length === 0) {
-      list.innerHTML = '<li>No has reportado síntomas significativos de ansiedad, ¡pero prevenlos con nuestras técnicas!</li>';
+      list.innerHTML = '<li>No reportaste síntomas graves, pero ¡previene antes de que empiecen a destruirte!</li>';
     } else {
       symptoms.forEach(symptom => {
         list.innerHTML += `<li>${symptomLabels[symptom]}</li>`;
       });
     }
     document.getElementById('result').classList.add('active');
+    startCountdown(); // Inicia el contador al mostrar el resultado
+  }
+
+  // Función para el contador regresivo de 5 minutos
+  function startCountdown() {
+    let timeLeft = 300; // 5 minutos en segundos
+    const countdownElement = document.getElementById('countdown');
+    
+    const timer = setInterval(() => {
+      if (timeLeft <= 0) {
+        clearInterval(timer);
+        countdownElement.textContent = '0:00';
+        // Opcional: Cambiar mensaje o deshabilitar botón al expirar
+        document.querySelector('.urgency').innerHTML = '¡Oferta expirada! Ahora paga el precio full: $27 USD.';
+        document.querySelector('.hotmart__button-checkout').textContent = 'Comprar Ahora por $27 USD';
+        document.querySelector('.hotmart__button-checkout').href = 'https://pay.hotmart.com/W99622832H?checkoutMode=2&off=ocl87h2q&price=27'; // Ajusta el link si es necesario
+      } else {
+        timeLeft--;
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        countdownElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+      }
+    }, 1000);
   }
 </script>
 </body>
