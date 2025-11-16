@@ -291,7 +291,7 @@
       <p>"Más de 5,000 personas como tú ya se liberaron – únete ahora."</p>
     </div>
     <p class="urgency">¡Oferta expira en: <span id="countdown">5:00</span>! Ahorra ahora: <del id="fullPrice">$27 USD</del> <strong id="offerPrice">$7 USD</strong>. ¡No esperes, el dolor no lo hará!</p>
-    <a href="https://pay.hotmart.com/W99622832H?checkoutMode=2&off=ocl87h2q" class="hotmart__button-checkout" id="buyButton">¡Comprar Ahora por $7 USD – Libérate Antes de que sea Tarde!</a>
+    <a href="https://pay.hotmart.com/W99622832H?checkoutMode=10" class="hotmart__button-checkout" id="buyButton">¡Comprar Ahora por $7 USD – Libérate Antes de que sea Tarde!</a>
   </div>
 </div>
 <!-- Cargar Hotmart (opcional) -->
@@ -341,10 +341,15 @@
         exchangeRate = rateData.usd[localCurrency.toLowerCase()] || 1;
       }
 
-      // Paso 3: Calcular precios convertidos y formatear
-      const convertedOffer = (originalOfferPrice * exchangeRate).toFixed(2);
-      const convertedFull = (originalFullPrice * exchangeRate).toFixed(2);
-      const formatter = new Intl.NumberFormat('default', { style: 'currency', currency: localCurrency });
+      // Paso 3: Calcular precios convertidos, redondear a enteros sin centavos
+      const convertedOffer = Math.round(originalOfferPrice * exchangeRate);
+      const convertedFull = Math.round(originalFullPrice * exchangeRate);
+      const formatter = new Intl.NumberFormat('default', { 
+        style: 'currency', 
+        currency: localCurrency,
+        minimumFractionDigits: 0, // Elimina centavos
+        maximumFractionDigits: 0  // Fuerza solo enteros
+      });
 
       // Actualizar DOM
       document.getElementById('offerPrice').textContent = formatter.format(convertedOffer);
@@ -352,7 +357,7 @@
       document.getElementById('buyButton').textContent = `¡Comprar Ahora por ${formatter.format(convertedOffer)} – Libérate Antes de que sea Tarde!`;
     } catch (error) {
       console.error('Error en conversión de moneda:', error);
-      // Fallback a USD
+      // Fallback a USD sin centavos
       document.getElementById('offerPrice').textContent = '$7 USD';
       document.getElementById('fullPrice').textContent = '$27 USD';
       document.getElementById('buyButton').textContent = '¡Comprar Ahora por $7 USD – Libérate Antes de que sea Tarde!';
@@ -397,13 +402,18 @@
       if (timeLeft <= 0) {
         clearInterval(timer);
         countdownElement.textContent = '0:00';
-        // Actualizar a precio full convertido
-        const convertedFull = (originalFullPrice * exchangeRate).toFixed(2);
-        const formatter = new Intl.NumberFormat('default', { style: 'currency', currency: localCurrency });
+        // Actualizar a precio full convertido sin centavos
+        const convertedFull = Math.round(originalFullPrice * exchangeRate);
+        const formatter = new Intl.NumberFormat('default', { 
+          style: 'currency', 
+          currency: localCurrency,
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 0
+        });
         document.querySelector('.urgency').innerHTML = `¡Oferta expirada! Ahora paga el precio full: ${formatter.format(convertedFull)}.`;
         document.getElementById('buyButton').textContent = `Comprar Ahora por ${formatter.format(convertedFull)}`;
-        // Ajusta el href si es necesario para precio full
-        document.getElementById('buyButton').href = 'https://pay.hotmart.com/W99622832H?checkoutMode=10';
+        // Ajusta el href si es necesario para precio full (mantengo el nuevo base, pero agrego price=27 si aplica)
+        document.getElementById('buyButton').href = 'https://pay.hotmart.com/W99622832H?checkoutMode=10&price=27';
       } else {
         timeLeft--;
         const minutes = Math.floor(timeLeft / 60);
