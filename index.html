@@ -403,7 +403,7 @@
         document.querySelector('.urgency').innerHTML = `¡Oferta expirada! Ahora paga el precio full: ${formatter.format(convertedFull)}.`;
         document.getElementById('buyButton').textContent = `Comprar Ahora por ${formatter.format(convertedFull)}`;
         // Ajusta el href si es necesario para precio full
-        document.getElementById('buyButton').href = 'https://pay.hotmart.com/W99622832H?checkoutMode=2&off=ocl87h2q&price=27';
+        document.getElementById('buyButton').href = 'https://pay.hotmart.com/W99622832H?checkoutMode=10';
       } else {
         timeLeft--;
         const minutes = Math.floor(timeLeft / 60);
