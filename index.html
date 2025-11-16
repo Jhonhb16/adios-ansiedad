@@ -1,23 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <!-- Meta Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '1016052750183891');
-fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=1016052750183891&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Meta Pixel Code -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Diagnóstico de Ansiedad - Adiós Síntomas: ¡Libérate del Dolor en Solo 7 Días!</title>
@@ -307,8 +290,8 @@ src="https://www.facebook.com/tr?id=1016052750183891&ev=PageView&noscript=1"
       <p>"Adiós al nerviosismo que me paralizaba en el trabajo. ¡Increíble!" - Carlos M. <span class="stars">★★★★★</span></p>
       <p>"Más de 5,000 personas como tú ya se liberaron – únete ahora."</p>
     </div>
-    <p class="urgency">¡Oferta expira en: <span id="countdown">5:00</span>! Ahorra ahora: <del>$27 USD</del> <strong>$7 USD</strong>. ¡No esperes, el dolor no lo hará!</p>
-    <a href="https://pay.hotmart.com/W99622832H?checkoutMode=2&off=ocl87h2q" class="hotmart__button-checkout">¡Comprar Ahora por $7 USD – Libérate Antes de que sea Tarde!</a>
+    <p class="urgency">¡Oferta expira en: <span id="countdown">5:00</span>! Ahorra ahora: <del id="fullPrice">$27 USD</del> <strong id="offerPrice">$7 USD</strong>. ¡No esperes, el dolor no lo hará!</p>
+    <a href="https://pay.hotmart.com/W99622832H?checkoutMode=2&off=ocl87h2q" class="hotmart__button-checkout" id="buyButton">¡Comprar Ahora por $7 USD – Libérate Antes de que sea Tarde!</a>
   </div>
 </div>
 <!-- Cargar Hotmart (opcional) -->
@@ -339,6 +322,43 @@ src="https://www.facebook.com/tr?id=1016052750183891&ev=PageView&noscript=1"
     mente_en_blanco: "Mente en blanco repentino que te hace fallar en momentos clave",
     evita_social: "Evitar situaciones sociales, aislándote y aumentando la soledad"
   };
+  const originalOfferPrice = 7; // USD
+  const originalFullPrice = 27; // USD
+  let localCurrency = 'USD';
+  let exchangeRate = 1; // Default to USD
+
+  async function detectAndConvertCurrency() {
+    try {
+      // Paso 1: Detectar moneda local vía IP (API gratuita ipapi.co)
+      const ipResponse = await fetch('https://ipapi.co/json/');
+      const ipData = await ipResponse.json();
+      localCurrency = ipData.currency || 'USD';
+
+      if (localCurrency !== 'USD') {
+        // Paso 2: Obtener tasa de cambio USD a moneda local (API gratuita currency-api)
+        const rateResponse = await fetch(`https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json`);
+        const rateData = await rateResponse.json();
+        exchangeRate = rateData.usd[localCurrency.toLowerCase()] || 1;
+      }
+
+      // Paso 3: Calcular precios convertidos y formatear
+      const convertedOffer = (originalOfferPrice * exchangeRate).toFixed(2);
+      const convertedFull = (originalFullPrice * exchangeRate).toFixed(2);
+      const formatter = new Intl.NumberFormat('default', { style: 'currency', currency: localCurrency });
+
+      // Actualizar DOM
+      document.getElementById('offerPrice').textContent = formatter.format(convertedOffer);
+      document.getElementById('fullPrice').textContent = formatter.format(convertedFull);
+      document.getElementById('buyButton').textContent = `¡Comprar Ahora por ${formatter.format(convertedOffer)} – Libérate Antes de que sea Tarde!`;
+    } catch (error) {
+      console.error('Error en conversión de moneda:', error);
+      // Fallback a USD
+      document.getElementById('offerPrice').textContent = '$7 USD';
+      document.getElementById('fullPrice').textContent = '$27 USD';
+      document.getElementById('buyButton').textContent = '¡Comprar Ahora por $7 USD – Libérate Antes de que sea Tarde!';
+    }
+  }
+
   function startSteps() {
     document.querySelector('.start-btn').style.display = 'none';
     nextStep(null, 'step1');
@@ -364,7 +384,8 @@ src="https://www.facebook.com/tr?id=1016052750183891&ev=PageView&noscript=1"
       });
     }
     document.getElementById('result').classList.add('active');
-    startCountdown(); // Inicia el contador al mostrar el resultado
+    startCountdown(); // Inicia el contador
+    detectAndConvertCurrency(); // Inicia la conversión de moneda
   }
 
   // Función para el contador regresivo de 5 minutos
@@ -376,10 +397,13 @@ src="https://www.facebook.com/tr?id=1016052750183891&ev=PageView&noscript=1"
       if (timeLeft <= 0) {
         clearInterval(timer);
         countdownElement.textContent = '0:00';
-        // Opcional: Cambiar mensaje o deshabilitar botón al expirar
-        document.querySelector('.urgency').innerHTML = '¡Oferta expirada! Ahora paga el precio full: $27 USD.';
-        document.querySelector('.hotmart__button-checkout').textContent = 'Comprar Ahora por $27 USD';
-        document.querySelector('.hotmart__button-checkout').href = 'https://pay.hotmart.com/W99622832H?checkoutMode=2&off=ocl87h2q&price=27'; // Ajusta el link si es necesario
+        // Actualizar a precio full convertido
+        const convertedFull = (originalFullPrice * exchangeRate).toFixed(2);
+        const formatter = new Intl.NumberFormat('default', { style: 'currency', currency: localCurrency });
+        document.querySelector('.urgency').innerHTML = `¡Oferta expirada! Ahora paga el precio full: ${formatter.format(convertedFull)}.`;
+        document.getElementById('buyButton').textContent = `Comprar Ahora por ${formatter.format(convertedFull)}`;
+        // Ajusta el href si es necesario para precio full
+        document.getElementById('buyButton').href = 'https://pay.hotmart.com/W99622832H?checkoutMode=2&off=ocl87h2q&price=27';
       } else {
         timeLeft--;
         const minutes = Math.floor(timeLeft / 60);
